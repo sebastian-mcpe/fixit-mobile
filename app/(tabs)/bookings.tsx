@@ -10,11 +10,11 @@ export default function bookings() {
     return (
         <SafeAreaView style={[styles.container]}>
             <VStack marginTop={100} width='100%' height='100%' alignItems='center' justifyContent='flex-start'>
-                <HStack justifyContent='space-around' width='100%' borderStyle='solid' borderBottomWidth={1} borderColor='#d1d1d1'>
-                    <Pressable onPress={() => setSelected(0)} style={[{width: '40%', backgroundColor: 'red'}]}>
+                <HStack justifyContent='space-around' width='100%' borderStyle='solid' borderBottomWidth={1} borderColor='#d1d1d1' flexDirection='row'>
+                    <Pressable onPress={() => setSelected(0)} style={[{width: '40%'}]}>
                         <Text style={[styles.titles, selected == 0 ? styles.SelectedState : null]}>Upcoming</Text>
                     </Pressable>
-                    <Pressable onPress={() => setSelected(1)} style={[{width: '40%', backgroundColor: 'red'}]}>
+                    <Pressable onPress={() => setSelected(1)} style={[{width: '40%'}]}>
                         <Text style={[styles.titles, selected == 1 ? styles.SelectedState : null]}>Previous</Text>
                     </Pressable>
                 </HStack>
