@@ -1,25 +1,54 @@
 import { View, Text, Image } from 'react-native'
 import React from 'react'
 import { Tabs } from 'expo-router'
-import { Center } from '@gluestack-ui/themed'
+import { Center, VStack } from '@gluestack-ui/themed'
+import { Ionicons } from '@expo/vector-icons'
 
 export default function _layout() {
     return (
         <Tabs>
+            <Tabs.Screen name="bookings"
+                options={
+                    {
+                        title: 'Bookings',
+                        tabBarLabelStyle: {
+                            color: 'black'
+                        },
+                        headerShown: false,
+                        tabBarIcon: ({ focused }) => {
+                            return (
+                                <Center alignItems='center' justifyContent='center' marginTop={0}>
+                                    <Ionicons name={focused ? "book" : "book-outline"} size={20} color='black' />
+                                </Center>
+                            )
+                        }
+                    }
+                } />
             <Tabs.Screen name="home"
                 options={
                     {
-                        title: '',
+                        title: 'home',
+                        headerTintColor: 'transparent',
+                        tabBarLabelStyle: {
+                            color: 'black'
+                        },
                         headerTitleAlign: 'center',
                         headerStyle: {
                             backgroundColor: '#eaeaea'
                         },
                         headerBackground: () => {
                             return (
-                                <Center>
+                                <Center alignItems='center'>
                                     <Image
-                                        style={[ styles.logo, { height: '70%', aspectRatio: 1, marginTop: 30 } ]}
+                                        style={[styles.logo, { height: '70%', aspectRatio: 1, marginTop: 30 }]}
                                         source={require('@/assets/images/fixit-logo-h.png')} />
+                                </Center>
+                            )
+                        },
+                        tabBarIcon: ({ focused }) => {
+                            return (
+                                <Center alignItems='center' justifyContent='center' marginTop={0}>
+                                    <Ionicons name={focused ? "home" : "home-outline"} size={20} color='black' />
                                 </Center>
                             )
                         }

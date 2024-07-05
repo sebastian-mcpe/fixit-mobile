@@ -1,12 +1,32 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Image, Pressable } from 'react-native'
 import React from 'react'
 import { GluestackUIProvider, ScrollView, Input, InputField, VStack, InputIcon, HStack } from '@gluestack-ui/themed'
 import { config } from '@gluestack-ui/config'
 import { Ionicons } from '@expo/vector-icons'
 import GenericButton from '@/components/GenericButton'
 import Colors from '@/constants/Colors'
+import { gql, useQuery } from '@apollo/client';
+
+const GET_DOGS = gql`
+    query default {
+      categoriasServicios {
+        items {
+          imagen
+          nombre
+        }
+      }
+    }
+`;
 
 export default function home() {
+    var { loading, error, data } = useQuery(GET_DOGS);
+
+    if (loading) return <Text>Loading...</Text>;
+
+    if (error) return <Text>Error! ${error.message}</Text>;
+
+    console.log(data.categoriasServicios.items)
+
     return (
         <GluestackUIProvider config={config}>
             <ScrollView>
@@ -18,21 +38,20 @@ export default function home() {
                                 placeholder='Your current location'
                             />
                         </Input>
-                        <GenericButton content={'Request service'} color={Colors.blue} tintColor={Colors.light.tint}/>
-                        <ScrollView horizontal={true} direction='ltr' showsHorizontalScrollIndicator={false}>
-                            <HStack>
-                                <Text style={styles.titles}>Services</Text>
-                                <Text style={styles.titles}>Services</Text>
-                                <Text style={styles.titles}>Services</Text>
-                                <Text style={styles.titles}>Services</Text>
-                                <Text style={styles.titles}>Services</Text>
-                                <Text style={styles.titles}>Services</Text>
-                                <Text style={styles.titles}>Services</Text>
-                                <Text style={styles.titles}>Services</Text>
-                                <Text style={styles.titles}>Services</Text>
-                                <Text style={styles.titles}>Services</Text>
-                                <Text style={styles.titles}>Services</Text>
-                                <Text style={styles.titles}>Services</Text>
+                        <GenericButton content={'Request service'} color={Colors.blue} tintColor={Colors.light.tint} />
+                        <ScrollView horizontal={true} direction='ltr' showsHorizontalScrollIndicator={false} style={[{ marginTop: 10 }]}>
+                            <HStack space='lg'>
+                                {data.categoriasServicios.items.map((item: any, index: number) => {
+                                    return (
+                                        <Pressable>
+                                            <Image source={
+                                                {
+                                                    uri: item.imagen
+                                                }
+                                            } style={styles.imageShowcase} />
+                                        </Pressable>
+                                    )
+                                })}
                             </HStack>
                         </ScrollView>
                     </VStack>
@@ -54,5 +73,10 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         margin: 10,
         fontWeight: 'bold'
+    },
+    imageShowcase: {
+        aspectRatio: 3 / 2,
+        height: 150,
+        borderRadius: 20
     }
 })
