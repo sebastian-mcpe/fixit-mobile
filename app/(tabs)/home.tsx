@@ -18,14 +18,19 @@ const GET_DOGS = gql`
     }
 `;
 
+type Servicio = {
+    imagen: string,
+    nombre: string
+}
+
 export default function home() {
-    var { loading, error, data } = useQuery(GET_DOGS);
+    var { loading, error, data } = useQuery<{categoriasServicios: {items: Servicio[]}}>(GET_DOGS);
 
     if (loading) return <Text>Loading...</Text>;
 
     if (error) return <Text>Error! ${error.message}</Text>;
 
-    console.log(data.categoriasServicios.items)
+    console.log(data?.categoriasServicios.items)
 
     return (
         <GluestackUIProvider config={config}>
@@ -41,7 +46,7 @@ export default function home() {
                         <GenericButton content={'Request service'} color={Colors.blue} tintColor={Colors.light.tint} />
                         <ScrollView horizontal={true} direction='ltr' showsHorizontalScrollIndicator={false} style={[{ marginTop: 10 }]}>
                             <HStack space='lg'>
-                                {data.categoriasServicios.items.map((item: any, index: number) => {
+                                {data?.categoriasServicios.items.map((item, index: number) => {
                                     return (
                                         <Pressable>
                                             <Image source={

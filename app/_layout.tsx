@@ -21,7 +21,6 @@ export default function _layout() {
   return (
     <ApolloProvider client={client}>
       <Stack>
-
         <Stack.Screen name="(tabs)"
           options={
             { headerShown: false }

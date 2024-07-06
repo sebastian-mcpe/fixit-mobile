@@ -1,10 +1,18 @@
-import { View, Text, StyleSheet, StyleProp, ViewStyle } from 'react-native'
+import { StyleSheet, StyleProp, ViewStyle, NativeSyntheticEvent, TextInputChangeEventData } from 'react-native'
 import React, { useState } from 'react'
 import { config } from '@gluestack-ui/config'
-import { GluestackUIProvider, ButtonText, Button, Input, InputField, InputSlot, InputIcon, EyeIcon, EyeOffIcon, Icon } from '@gluestack-ui/themed'
+import { GluestackUIProvider, Input, InputField, InputSlot} from '@gluestack-ui/themed'
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-export default function GenericInput(props: {content: string, style?: StyleProp<ViewStyle>}) {
+type props = {
+  content: string,
+  style?: StyleProp<ViewStyle>
+  onChange?: (e: string) => void
+  onBlur?: (e: any) => void
+  value?: string
+}
+
+export default function GenericInput(props: props) {
   
   const [showPassword, setShowPassword] = useState(false)
   const handleState = () => {
@@ -31,7 +39,7 @@ export default function GenericInput(props: {content: string, style?: StyleProp<
           isInvalid={false}
           isReadOnly={false}
           style={[styles.input, props.style]}>
-          <InputField type={showPassword? "text" : "password"} placeholder={props.content} />
+          <InputField onBlur={props.onBlur} onChangeText={props.onChange} value={props.value} type={showPassword? "text" : "password"} placeholder={props.content} />
             <InputSlot pr="$3" onPress={handleState}>
               <Ionicons name={showPassword? "eye-off-outline" : "eye-outline"} size={22} color="gray"/>
             </InputSlot>

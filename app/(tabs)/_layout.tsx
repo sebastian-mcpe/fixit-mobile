@@ -1,4 +1,4 @@
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, StyleSheet } from 'react-native'
 import React from 'react'
 import { Tabs } from 'expo-router'
 import { Center, VStack } from '@gluestack-ui/themed'
@@ -58,11 +58,11 @@ export default function _layout() {
     )
 }
 
-const styles = {
+const styles = StyleSheet.create( {
     logo: {
         resizeMode: 'contain',
         marginBottom: 16,
         width: '100%',
         height: '15%'
     }
-}
+})

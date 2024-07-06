@@ -8,46 +8,69 @@ import GenericButton from '@/components/GenericButton'
 import GenericInput from '@/components/GenericInput'
 import GenericPasswordInput from '@/components/GenericPasswordInput'
 import { Link } from 'expo-router'
-import Animated from 'react-native-reanimated'
 import GoogleButton from '@/components/GoogleButton'
-
+import { Formik, FormikHelpers, FormikValues } from 'formik'
+import * as yup from "yup";
+import { FormError } from '@/components/FormError'
+const initialValues = {
+    email: '',
+    password: ''
+}
+const validations = yup.object().shape({
+    // TODO: CHANGE EMAIL REGEX
+    email: yup.string().email().required(),
+    password: yup.string().min(8).required()
+});
+type formValues = typeof initialValues;
 export default function loginClient() {
-  return (
-    <GluestackUIProvider config={config}>
-        <SafeAreaView style={styles.container}>
-            <VStack width={'70%'} style={styles.container}>
-                <Image alt='' source={require('../assets/images/fixit-logo-h.png')} style={styles.logo}/>
-                <Text style={styles.formTitles}>Email:</Text>
-                <GenericInput content='Enter your email'/>
-                <Text style={styles.formTitles}>Password:</Text>
-                <GenericPasswordInput content='Enter your password'/>
-                <Link href="forgotPassword" style={[{
-                    color: Colors.blue,
-                    textAlign: 'right',
-                    width: '100%',
-                    margin: 5,
-                    textDecorationLine: 'underline',
-                }]}>Forgot Password?</Link>
-                <GenericButton content='Login' color={Colors.blue} tintColor={Colors.light.tint}/>
-                <Link href="register" style={[{
-                    color: Colors.blue,
-                    textAlign: 'left',
-                    width: '100%',
-                    margin: 5,
-                    textDecorationLine: 'underline',
-                }]}>Don't have an account?</Link>
-                <Text style={[{
-                    color: Colors.gray,
-                    textAlign: 'center',
-                    width: '100%',
-                    marginTop: 150,
-                    marginBottom: 20
-                }]}>Or login with:</Text>
-                <GoogleButton/>
-            </VStack>
-        </SafeAreaView>
-    </GluestackUIProvider>
-  )
+    const onSubmit = (values: formValues, formikHelpers: FormikHelpers<formValues>) => {
+        console.log(values)
+    }
+    return (
+        <GluestackUIProvider config={config}>
+            <SafeAreaView style={styles.container}>
+                <Formik
+                    initialValues={initialValues}
+                    validationSchema={validations}
+                    onSubmit={onSubmit}>
+                    {({ values, errors, handleBlur, handleChange, handleSubmit }) => (
+                        <VStack width={'70%'} style={styles.container}>
+                            <Image alt='' source={require('../assets/images/fixit-logo-h.png')} style={styles.logo} />
+                            <Text style={styles.formTitles}>Email:</Text>
+                            <GenericInput value={values.email} onBlur={handleBlur('email')} onChange={handleChange('email')} content='Enter your email' />
+                            <FormError name='email' />
+                            <Text style={styles.formTitles}>Password:</Text>
+                            <GenericPasswordInput value={values.password} onBlur={handleBlur('password')} onChange={handleChange('password')} content='Enter your password' />
+                            <FormError name='password' />
+                            <Link href="forgotPassword" style={[{
+                                color: Colors.blue,
+                                textAlign: 'right',
+                                width: '100%',
+                                margin: 5,
+                                textDecorationLine: 'underline',
+                            }]}>Forgot Password?</Link>
+                            <GenericButton onPress={handleSubmit} content='Login' color={Colors.blue} tintColor={Colors.light.tint} />
+                            <Link href="register" style={[{
+                                color: Colors.blue,
+                                textAlign: 'left',
+                                width: '100%',
+                                margin: 5,
+                                textDecorationLine: 'underline',
+                            }]}>Don't have an account?</Link>
+                            <Text style={[{
+                                color: Colors.gray,
+                                textAlign: 'center',
+                                width: '100%',
+                                marginTop: 150,
+                                marginBottom: 20
+                            }]}>Or login with:</Text>
+                        </VStack>
+                    )}
+                </Formik>
+                <GoogleButton />
+            </SafeAreaView>
+        </GluestackUIProvider >
+    )
 }
 
 const styles = StyleSheet.create({
