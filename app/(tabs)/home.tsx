@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Image, Pressable } from 'react-native'
-import React from 'react'
+import * as React from 'react'
 import { GluestackUIProvider, ScrollView, Input, InputField, VStack, InputIcon, HStack } from '@gluestack-ui/themed'
 import { config } from '@gluestack-ui/config'
 import { Ionicons } from '@expo/vector-icons'

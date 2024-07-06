@@ -34,9 +34,9 @@ const RegisterScreen = () => {
                         </Select>
                         <Text style={styles.instructions}>Insert if you wanna register as a client or a worker</Text>
                     </Box>
-                    <HStack space='lg'>
-                        <GenericInput content='First Name' style={[{ width: '47.5%' }]} />
-                        <GenericInput content='Last Name' style={[{ width: '47.5%' }]} />
+                    <HStack flexDirection='row' gap={5}>
+                        <GenericInput style={{flex: 1}} content='First Name' />
+                        <GenericInput style={{flex: 1}} content='Last Name' />
                     </HStack>
                     <GenericInput content='Email' />
                     <Box>

@@ -29,7 +29,7 @@ const GoogleLoginButton = (props: { onPress?: () => void }) => {
 
   return (
     <Button style={styles.button} onPress={props.onPress}>
-      <HStack alignItems="center" justifyContent="center">
+      <HStack flexDirection='row' alignItems="center" justifyContent="center">
         <Image source={require('../assets/images/google-icon.png')} style={styles.icon} />
         <ButtonText style={styles.text}>Login with Google</ButtonText>
       </HStack>
