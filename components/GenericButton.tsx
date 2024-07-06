@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, StyleProp, ViewStyle } from 'react-native'
-import * as React from 'react'
+import React from 'react'
 import { config } from '@gluestack-ui/config'
 import { GluestackUIProvider, ButtonText, Button } from '@gluestack-ui/themed'
 
