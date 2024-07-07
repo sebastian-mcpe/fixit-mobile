@@ -5,7 +5,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client
 import { jwtDecode } from 'jwt-decode';
 
 const client = new ApolloClient({
-  uri: 'https://fixit-main20240705032607.azurewebsites.net/api/graph/',
+  uri: 'http://localhost:5127/api/graph/',
   cache: new InMemoryCache(),
   headers: {
     Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEwIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6InN0cmluZyIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IndvcmtlciIsImV4cCI6MTcyMDI1MjU5MywiaXNzIjoiRml4SXRHcm91cCIsImF1ZCI6IkZpeEl0In0.J_Npc9e2wme8d1qZMLnozIpwNhEyLbN7BQexWvDT9hk'
@@ -25,16 +25,18 @@ export default function _layout() {
           options={
             { headerShown: false }
           } />
+        <Stack.Screen name="index"
+          options={{
+            headerShown: false
+          }} />
+
 
         <Stack.Screen name="completeRegistration"
           options={{
             headerShown: false
           }} />
 
-        <Stack.Screen name="index"
-          options={{
-            headerShown: false
-          }} />
+
 
         <Stack.Screen name="loginClient"
           options={{

@@ -20,7 +20,7 @@ export default function GenericButton(props: { content: string, color: string, i
 
   return (
     <GluestackUIProvider config={config}>
-      <Button style={[styles.button, styles.clientButton]} onPress={props.onPress} isDisabled={props.isDisabled}>
+      <Button style={[styles.button, styles.clientButton, props.style]} onPress={props.onPress} isDisabled={props.isDisabled}>
         <ButtonText>{props.content}</ButtonText>
       </Button>
     </GluestackUIProvider>

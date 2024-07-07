@@ -7,7 +7,7 @@ import EditScreenInfo from '@/components/EditScreenInfo'
 import GenericButton from '@/components/GenericButton'
 import GenericInput from '@/components/GenericInput'
 import GenericPasswordInput from '@/components/GenericPasswordInput'
-import { Link } from 'expo-router'
+import { Link, useRouter } from 'expo-router'
 import GoogleButton from '@/components/GoogleButton'
 import { Formik, FormikHelpers, FormikValues } from 'formik'
 import * as yup from "yup";
@@ -23,8 +23,10 @@ const validations = yup.object().shape({
 });
 type formValues = typeof initialValues;
 export default function loginClient() {
+    const router = useRouter();
     const onSubmit = (values: formValues, formikHelpers: FormikHelpers<formValues>) => {
         console.log(values)
+        router.push('home')
     }
     return (
         <GluestackUIProvider config={config}>
@@ -64,10 +66,10 @@ export default function loginClient() {
                                 marginTop: 150,
                                 marginBottom: 20
                             }]}>Or login with:</Text>
+                            <GoogleButton />
                         </VStack>
                     )}
                 </Formik>
-                <GoogleButton />
             </SafeAreaView>
         </GluestackUIProvider >
     )

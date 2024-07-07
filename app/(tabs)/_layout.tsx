@@ -6,7 +6,8 @@ import { Ionicons } from '@expo/vector-icons'
 
 export default function _layout() {
     return (
-        <Tabs>
+        <Tabs initialRouteName='home'>
+
             <Tabs.Screen name="bookings"
                 options={
                     {
