@@ -7,6 +7,7 @@ import GenericButton from '@/components/GenericButton'
 import Colors from '@/constants/Colors'
 import { gql, useQuery } from '@apollo/client';
 import ServicesHighlight from '@/components/ServicesHighlight'
+import { router } from 'expo-router'
 
 const GET_DOGS = gql`
     query default {
@@ -44,7 +45,9 @@ export default function home() {
                                 placeholder='Your current location'
                             />
                         </Input>
-                        <GenericButton content={'Request service'} color={Colors.blue} tintColor={Colors.light.tint} />
+                        <GenericButton content={'Request service'} color={Colors.blue} tintColor={Colors.light.tint} onPress={()=>{
+                            router.push('requestService')
+                        }} />
                         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={[{ marginTop: 10 }]}>
                             <HStack space='lg' gap={30}>
                                 {data?.categoriasServicios.items.map((item, index: number) => {
