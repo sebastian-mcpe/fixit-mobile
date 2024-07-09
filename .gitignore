@@ -2,7 +2,7 @@
 
 # dependencies
 node_modules/
-
+__snapshots__
 # Expo
 .expo/
 dist/
