@@ -5,7 +5,7 @@ import { Center, GluestackUIProvider, Heading, HStack, SafeAreaView, ScrollView,
 import { config } from '@gluestack-ui/config'
 import Colors from '@/constants/Colors'
 
-export default function ServiceTile(props: { date: Date, service: string, status: string }) {
+export default function ServiceTile(props: { date: Date, service: string, status: string}) {
     return (
         <GluestackUIProvider config={config}>
             <View>
@@ -17,7 +17,7 @@ export default function ServiceTile(props: { date: Date, service: string, status
                         </HStack>
                         <HStack justifyContent='space-between' width='100%' alignItems='flex-end' padding={10}>
                             <Text>{props.status}</Text>
-                            <Pressable onPress={() => router.push('bookings')}>
+                            <Pressable onPress={() => router.push('serviceDetail')}>
                                 <Text style={{ color: Colors.blue }}>View details</Text>
                             </Pressable>
                         </HStack>

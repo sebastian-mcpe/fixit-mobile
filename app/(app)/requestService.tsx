@@ -4,6 +4,7 @@ import { Feather, Ionicons } from '@expo/vector-icons';
 import { GluestackUIProvider, Text, Button, Select, SelectTrigger, SelectInput, SelectPortal, SelectBackdrop, SelectContent, SelectDragIndicatorWrapper, SelectDragIndicator, SelectItem } from '@gluestack-ui/themed';
 import { config } from '@gluestack-ui/config';
 import Colors from '@/constants/Colors';
+import { router } from 'expo-router';
 
 const ServiceDescriptionScreen = () => {
   const [email, setEmail] = useState('');
@@ -68,8 +69,9 @@ const ServiceDescriptionScreen = () => {
                 <Text color='white'>Request for later</Text>
             </Button>
             <Button
-              style={styles.requestNowButton}
-              onPress={() => console.log('Request Now pressed')}
+              style={styles.requestNowButton} onPress={() => {
+                router.push('payment')
+            }}
             >
                 <Text color='white'>Request Now</Text>
             </Button>

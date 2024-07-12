@@ -14,7 +14,7 @@ const RegisterScreen = () => {
         <GluestackUIProvider config={config}>
             <SafeAreaView style={styles.container}>
                 <VStack width={'85%'} space='lg' style={styles.container}>
-                    <Image alt='' source={require('../assets/images/fixit-logo-h.png')} style={styles.logo} />
+                    <Image alt='' source={require('@/assets/images/fixit-logo-h.png')} style={styles.logo} />
                     <Box style={[{ width: '100%' }]}>
                         <Select defaultValue='client'>
                             <SelectTrigger variant="outline" size="md" style={[{ borderRadius: 7 }]}>

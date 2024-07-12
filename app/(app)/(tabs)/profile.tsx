@@ -4,8 +4,10 @@ import { Feather, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Text, ScrollView, GluestackUIProvider, Button } from '@gluestack-ui/themed';
 import { router } from 'expo-router';
 import { config } from '@gluestack-ui/config';
+import { useAuth } from '@/context/AuthContext';
 
 const ProfileScreen = () => {
+    const { signOut } = useAuth();
     return (
         <GluestackUIProvider config={config}>
             <ScrollView style={{ flex: 1, backgroundColor: '#fff' }} showsVerticalScrollIndicator={false}>
@@ -48,17 +50,11 @@ const ProfileScreen = () => {
                         <Text style={styles.optionText}>Support</Text>
                     </TouchableOpacity>
 
-                    <Text style={styles.sectionTitle}>Add person of trust</Text>
-
-                    <TouchableOpacity style={styles.option}>
-                        <Feather name="user-plus" size={24} color="black" />
-                        <Text style={styles.optionText}>Add trusted people</Text>
-                    </TouchableOpacity>
-
                     <Button
                         style={{ marginVertical: 20 }}
                         onPress={() => {
                             console.log('Log Out pressed')
+                            signOut()
                             router.dismissAll()
                         }}
                     >

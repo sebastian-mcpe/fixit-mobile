@@ -14,7 +14,7 @@ export default function forgotPassword() {
     <GluestackUIProvider config={config}>
         <SafeAreaView style={styles.container}>
             <VStack width={'70%'} style={styles.container}>
-                <Image alt='' source={require('../assets/images/fixit-logo-h.png')} style={styles.logo}/>
+                <Image alt='' source={require('@/assets/images/fixit-logo-h.png')} style={styles.logo}/>
                 <Text style={styles.formTitles}>Enter the email asociated with your account:</Text>
                 <GenericInput content='Enter your email' style={{marginBottom: 100}}/>
                 <GenericButton content={'Send link'} color={Colors.blue} tintColor={Colors.light.tint}/>

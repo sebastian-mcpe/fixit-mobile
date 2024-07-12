@@ -68,7 +68,7 @@ export default function _layout() {
                             tabBarIcon: ({ focused }) => {
                                 return (
                                     <Center alignItems='center' justifyContent='center' marginTop={0}>
-                                        <Ionicons name={focused ? "book" : "book-outline"} size={20} color='black' />
+                                        <Ionicons name={focused ? "person" : "person-outline"} size={20} color='black' />
                                     </Center>
                                 )
                             }

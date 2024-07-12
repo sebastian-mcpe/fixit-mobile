@@ -52,9 +52,9 @@ export default function bookings() {
                                     <VStack>
                                         {
                                             data?.servicios.items.map((item, index: number) => {
-                                                if (new Date(item.fecha_Realizacion) > new Date()) {
+                                                if (item.estado == "pendiente") {
                                                     return (
-                                                        <ServiceTile date={new Date(item.fecha_Realizacion)} service='completado' status={item.estado} key={index} />
+                                                        <ServiceTile date={new Date(item.fecha_Realizacion)} service='Haulage' status={item.estado} key={index} />
                                                     )
                                                 }
                                             })
@@ -69,9 +69,9 @@ export default function bookings() {
                                         </Text>
                                         {
                                             data?.servicios.items.map((item, index: number) => {
-                                                if (new Date(item.fecha_Realizacion) < new Date()) {
+                                                if (item.estado == "completado") {
                                                     return (
-                                                        <ServiceTile date={new Date(item.fecha_Realizacion)} service='completado' status={item.estado} key={index} />
+                                                        <ServiceTile date={new Date(item.fecha_Realizacion)} service='Plumbering' status={item.estado} key={index} />
                                                     )
                                                 }
                                             })

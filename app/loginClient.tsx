@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import { Box, Button, ButtonText, Center, GluestackUIProvider, Heading, Image, SafeAreaView, VStack } from '@gluestack-ui/themed'
 import { config } from '@gluestack-ui/config'
 import Colors from '@/constants/Colors'
@@ -12,7 +12,11 @@ import GoogleButton from '@/components/GoogleButton'
 import { Formik, FormikHelpers, FormikValues } from 'formik'
 import * as yup from "yup";
 import { FormError } from '@/components/FormError'
+import * as SecureStore from 'expo-secure-store'
+import { useAuth } from '@/context/AuthContext'
+
 const initialValues = {
+    role: 'client',
     email: '',
     password: ''
 }
@@ -22,11 +26,35 @@ const validations = yup.object().shape({
     password: yup.string().min(8).required()
 });
 type formValues = typeof initialValues;
+
+async function login(values: formValues) {
+    console.log(values)
+    const response = await fetch('https://fixit-main20240707123824.azurewebsites.net/api/Auth/Login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(values)
+    })
+    const data = await response.json()
+    console.log(data)
+    return data;
+}
+
 export default function loginClient() {
+    const { signIn, session } = useAuth();
     const router = useRouter();
-    const onSubmit = (values: formValues, formikHelpers: FormikHelpers<formValues>) => {
+    const onSubmit = async (values: formValues, formikHelpers: FormikHelpers<formValues>) => {
         console.log(values)
-        router.push('home')
+        var userData = await login(values);
+
+        if (userData['token']) {
+            signIn(userData['token']);
+            router.push('home');
+        }
+        else {
+            formikHelpers.setErrors({ email: 'Invalid email or password' });
+        }
     }
     return (
         <GluestackUIProvider config={config}>
@@ -37,7 +65,7 @@ export default function loginClient() {
                     onSubmit={onSubmit}>
                     {({ values, errors, handleBlur, handleChange, handleSubmit }) => (
                         <VStack width={'70%'} style={styles.container}>
-                            <Image alt='' source={require('../assets/images/fixit-logo-h.png')} style={styles.logo} />
+                            <Image alt='' source={require('@/assets/images/fixit-logo-h.png')} style={styles.logo} />
                             <Text style={styles.formTitles}>Email:</Text>
                             <GenericInput value={values.email} onBlur={handleBlur('email')} onChange={handleChange('email')} content='Enter your email' />
                             <FormError name='email' />

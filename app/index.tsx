@@ -6,13 +6,18 @@ import Colors from '@/constants/Colors'
 import EditScreenInfo from '@/components/EditScreenInfo'
 import GenericButton from '@/components/GenericButton'
 import { Link, router } from 'expo-router'
+import { useAuth } from '@/context/AuthContext'
 
 export default function welcome() {
+    const { session } = useAuth();
+    if (session) {
+        router.push('home');
+    }
   return (
     <GluestackUIProvider config={config}>
         <SafeAreaView style={styles.container}>
             <VStack width={'70%'} style={styles.container}>
-                <Image alt='' source={require('../assets/images/fixit-logo-h.png')} style={styles.logo}/>
+                <Image alt='' source={require('@/assets/images/fixit-logo-h.png')} style={styles.logo}/>
                 <Heading style={styles.welcome}> Bringing <Heading style={styles.welcomeYellow}>Quality</Heading> and <Heading style={styles.   welcomeBlue}>Trust</Heading> Right to Your Doorstep</Heading>
                 <Heading style={styles.accesAs}>Acces as:</Heading>
                 <GenericButton content='Client' color={Colors.blue} tintColor={Colors.light.tint} onPress={() => {

@@ -43,7 +43,12 @@ const profilePhotoUpload = () => {
                             }
                         </Box>
                     </Pressable>
-                    <GenericButton content='Complete registration' color={Colors.blue} tintColor={Colors.dark.tint} />
+                    <GenericButton content='Complete registration' color={Colors.blue} tintColor={Colors.dark.tint} onPress={
+                        () => {
+                            router.push('completeRegistration');
+                        }
+                    
+                    } />
                 </VStack>
             </SafeAreaView>
         </GluestackUIProvider>
