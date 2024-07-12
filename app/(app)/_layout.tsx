@@ -1,14 +1,23 @@
-import { View, Text } from 'react-native'
-import React, { useContext } from 'react'
-import { Stack } from 'expo-router'
-import { ApolloClient, InMemoryCache, ApolloProvider, gql, createHttpLink } from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
-import { jwtDecode } from 'jwt-decode';
-import * as SecureStore from 'expo-secure-store'
-import { AuthProvider, useAuth } from '@/context/AuthContext';
+import { View, Text } from "react-native";
+import React, { useContext } from "react";
+import { Stack } from "expo-router";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  gql,
+  createHttpLink,
+} from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
+import { jwtDecode } from "jwt-decode";
+import * as SecureStore from "expo-secure-store";
+import { AuthProvider, useAuth } from "@/context/AuthContext";
+
+const prodURL = "https://fixit-main20240707123824.azurewebsites.net/api/graph/";
+const devURL = "http://localhost:5127/api/graph/";
 
 const httpLink = createHttpLink({
-  uri: 'https://fixit-main20240707123824.azurewebsites.net/api/graph/',
+  uri: prodURL,
 });
 
 const AuthLink = () => {
@@ -16,11 +25,11 @@ const AuthLink = () => {
     return {
       headers: {
         ...headers,
-        Authorization: `Bearer ${await SecureStore.getItem('session')}`
-      }
-    }
+        Authorization: `Bearer ${await SecureStore.getItem("session")}`,
+      },
+    };
   });
-}
+};
 
 const client = new ApolloClient({
   link: AuthLink().concat(httpLink),
@@ -28,116 +37,134 @@ const client = new ApolloClient({
 });
 
 export const unstable_settings = {
-  initialRouteName: '(tabs)'
+  initialRouteName: "(tabs)",
 };
 
-export default function _layout( token: string) {
+export default function _layout(token: string) {
   return (
     <ApolloProvider client={client}>
       <AuthProvider>
         <Stack>
-
-          <Stack.Screen name="completeRegistration"
+          <Stack.Screen
+            name="completeRegistration"
             options={{
-              headerShown: false
-            }} />
+              headerShown: false,
+            }}
+          />
 
-          <Stack.Screen name="register"
+          <Stack.Screen
+            name="register"
             options={{
               headerShown: false,
               headerStyle: {
-                backgroundColor: '#eaeaea'
+                backgroundColor: "#eaeaea",
               },
               headerShadowVisible: false,
-              headerTitleAlign: 'center',
-              headerTitle: "Register"
-            }} />
+              headerTitleAlign: "center",
+              headerTitle: "Register",
+            }}
+          />
 
-          <Stack.Screen name="profilePhotoUpload"
+          <Stack.Screen
+            name="profilePhotoUpload"
             options={{
               headerStyle: {
-                backgroundColor: '#eaeaea'
+                backgroundColor: "#eaeaea",
               },
               headerShadowVisible: false,
-              headerTitleAlign: 'center',
-              headerTitle: "Photo upload"
-            }} />
+              headerTitleAlign: "center",
+              headerTitle: "Photo upload",
+            }}
+          />
 
-          <Stack.Screen name="forgotPassword"
+          <Stack.Screen
+            name="forgotPassword"
             options={{
               headerStyle: {
-                backgroundColor: '#eaeaea'
+                backgroundColor: "#eaeaea",
               },
               headerShadowVisible: false,
-              headerTitleAlign: 'center',
-              headerTitle: "Password Recovery"
-            }} />
+              headerTitleAlign: "center",
+              headerTitle: "Password Recovery",
+            }}
+          />
 
-          <Stack.Screen name="editProfile"
+          <Stack.Screen
+            name="editProfile"
             options={{
               headerStyle: {
-                backgroundColor: '#eaeaea'
+                backgroundColor: "#eaeaea",
               },
               headerShadowVisible: false,
-              headerTitleAlign: 'center',
-              headerTitle: "Edit profile"
-            }} />
+              headerTitleAlign: "center",
+              headerTitle: "Edit profile",
+            }}
+          />
 
-            <Stack.Screen name="serviceDetail"
-              options={{
-                headerStyle: {
-                  backgroundColor: '#eaeaea'
-                },
-                headerShadowVisible: false,
-                headerTitleAlign: 'center',
-                headerTitle: "Service detail"
-              }} />
-
-          <Stack.Screen name="paymentHistory"
-            options={{
-              headerShadowVisible: false,
-              headerTitleAlign: 'center',
-              headerTitle: "Payment history"
-            }} />
-
-          <Stack.Screen name="support"
-            options={{
-              headerShadowVisible: false,
-              headerTitleAlign: 'center',
-              headerTitle: "Support"
-            }} />
-
-          <Stack.Screen name="allServices"
+          <Stack.Screen
+            name="serviceDetail"
             options={{
               headerStyle: {
-                backgroundColor: '#eaeaea'
+                backgroundColor: "#eaeaea",
               },
               headerShadowVisible: false,
-              headerTitleAlign: 'center',
-              headerTitle: "All services"
-            }} />
+              headerTitleAlign: "center",
+              headerTitle: "Service detail",
+            }}
+          />
 
-          <Stack.Screen name="payment"
+          <Stack.Screen
+            name="paymentHistory"
             options={{
               headerShadowVisible: false,
-              headerTitleAlign: 'center',
-              headerTitle: "Payment"
-            }} />
+              headerTitleAlign: "center",
+              headerTitle: "Payment history",
+            }}
+          />
 
-          <Stack.Screen name="succesfullPayment"
+          <Stack.Screen
+            name="support"
+            options={{
+              headerShadowVisible: false,
+              headerTitleAlign: "center",
+              headerTitle: "Support",
+            }}
+          />
+
+          <Stack.Screen
+            name="allServices"
+            options={{
+              headerStyle: {
+                backgroundColor: "#eaeaea",
+              },
+              headerShadowVisible: false,
+              headerTitleAlign: "center",
+              headerTitle: "All services",
+            }}
+          />
+
+          <Stack.Screen
+            name="payment"
+            options={{
+              headerShadowVisible: false,
+              headerTitleAlign: "center",
+              headerTitle: "Payment",
+            }}
+          />
+
+          <Stack.Screen
+            name="succesfullPayment"
             options={{
               headerShown: false,
               headerShadowVisible: false,
-              headerTitleAlign: 'center',
-              headerTitle: "Successful payment"
-            }} />
+              headerTitleAlign: "center",
+              headerTitle: "Successful payment",
+            }}
+          />
 
-          <Stack.Screen name="(tabs)"
-            options={
-              { headerShown: false }
-            } />
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         </Stack>
       </AuthProvider>
     </ApolloProvider>
-  )
+  );
 }
