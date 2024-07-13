@@ -8,10 +8,10 @@ import GenericButton from '@/components/GenericButton'
 import { Link, router } from 'expo-router'
 import { useAuth } from '@/context/AuthContext'
 
-export default function welcome() {
+export default function index() {
     const { session } = useAuth();
     if (session) {
-        router.push('home');
+        router.navigate('home');
     }
   return (
     <GluestackUIProvider config={config}>

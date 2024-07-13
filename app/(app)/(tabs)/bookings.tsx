@@ -1,22 +1,27 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
-import React from "react";
-import { Link, router } from "expo-router";
+import React, { useEffect } from "react";
+import { Link, router, useRouter } from "expo-router";
 import { HStack, SafeAreaView, ScrollView, VStack } from "@gluestack-ui/themed";
 import Colors from "@/constants/Colors";
 import ServiceTile from "@/components/ServiceTile";
 import { gql, useQuery } from "@apollo/client";
 import { string } from "yup";
 import { useAuth } from "@/context/AuthContext";
+import { jwtDecode } from "jwt-decode";
+import * as SecureStore from "expo-secure-store";
+
 
 type booking = {
+  id_Servicio: number,
   fecha_Realizacion: Date;
   estado: string;
 };
 
 const GET_BOOKINGS = gql`
-  query GET_BOOKINGS {
-    servicios(where: { cliente: { id: { eq: 4 } } }) {
+  query GET_BOOKINGS ($id: Int!) {
+    servicios(where: { cliente: { id: { eq: $id } } }) {
       items {
+        id_Servicio
         estado
         fecha_Realizacion
       }
@@ -25,11 +30,25 @@ const GET_BOOKINGS = gql`
 `;
 
 export default function bookings() {
+  const token = SecureStore.getItem("session")
+  if (!token) {
+    throw Error
+  }
+  const tokenDecoded = jwtDecode(token) as {[key: string]: any}
+
+  const userId = tokenDecoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier']
+  console.log('el id es: ' + userId);
+  
   const [selected, setSelected] = React.useState(0);
   const { session } = useAuth();
   var { loading, error, data } = useQuery<{ servicios: { items: booking[] } }>(
-    GET_BOOKINGS
+    GET_BOOKINGS, {
+      variables: {
+        id: Number(userId)
+      }
+    }
   );
+  
 
   if (loading) return <Text>Loading...</Text>;
 
@@ -88,6 +107,7 @@ export default function bookings() {
                           service="Haulage"
                           status={item.estado}
                           key={index}
+                          id={item.id_Servicio}
                         />
                       );
                     }
@@ -97,7 +117,6 @@ export default function bookings() {
             ) : (
               <View>
                 <VStack>
-                  <Text>Last week:</Text>
                   {data?.servicios.items.map((item, index: number) => {
                     if (item.estado == "completado") {
                       return (
@@ -106,6 +125,7 @@ export default function bookings() {
                           service="Plumbering"
                           status={item.estado}
                           key={index}
+                          id={item.id_Servicio}
                         />
                       );
                     }

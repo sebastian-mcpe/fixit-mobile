@@ -1,11 +1,12 @@
 import { View, StyleSheet, Pressable } from 'react-native'
 import React from 'react'
-import { Link, router } from 'expo-router'
+import { Link, router, useRouter } from 'expo-router'
 import { Center, GluestackUIProvider, Heading, HStack, SafeAreaView, ScrollView, Text, VStack } from '@gluestack-ui/themed'
 import { config } from '@gluestack-ui/config'
 import Colors from '@/constants/Colors'
 
-export default function ServiceTile(props: { date: Date, service: string, status: string}) {
+export default function ServiceTile(props: { date: Date, service: string, status: string, id: number}) {
+    const router = useRouter()
     return (
         <GluestackUIProvider config={config}>
             <View>
@@ -17,7 +18,12 @@ export default function ServiceTile(props: { date: Date, service: string, status
                         </HStack>
                         <HStack justifyContent='space-between' width='100%' alignItems='flex-end' padding={10}>
                             <Text>{props.status}</Text>
-                            <Pressable onPress={() => router.push('serviceDetail')}>
+                            <Pressable onPress={() => {
+                                router.setParams({
+                                    id: props.id.toString()
+                                })
+                                router.push('serviceDetail')
+                            }}>
                                 <Text style={{ color: Colors.blue }}>View details</Text>
                             </Pressable>
                         </HStack>

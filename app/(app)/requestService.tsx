@@ -44,7 +44,7 @@ const query = gql`
   }
 `;
 const mutation = gql`
-  mutation requestService(
+ mutation requestService(
     $servicioID: Int!
     $descripcion: String!
     $fecha_Realizacion: DateTime!
@@ -59,9 +59,10 @@ const mutation = gql`
         }
       }
     ) {
-      mutationResult {
+      mutationResultWithID {
         message
         success
+        
       }
     }
   }

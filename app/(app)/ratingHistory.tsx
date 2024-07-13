@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { View, StyleSheet, Text, FlatList } from "react-native";
 
 const GET_RATING_HISTORY = gql`

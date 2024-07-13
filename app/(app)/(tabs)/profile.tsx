@@ -55,7 +55,7 @@ const ProfileScreen = () => {
                         onPress={() => {
                             console.log('Log Out pressed')
                             signOut()
-                            router.dismissAll()
+                            router.replace('../../index')
                         }}
                     >
                         <Text color='white'>Log Out</Text>

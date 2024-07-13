@@ -116,7 +116,7 @@ export default function home() {
               color={Colors.blue}
               tintColor={Colors.light.tint}
               onPress={() => {
-                router.push("requestService");
+                router.push("/requestService");
               }}
             />
             <ScrollView
