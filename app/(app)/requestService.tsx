@@ -44,7 +44,7 @@ const query = gql`
   }
 `;
 const mutation = gql`
- mutation requestService(
+  mutation requestService(
     $servicioID: Int!
     $descripcion: String!
     $fecha_Realizacion: DateTime!
@@ -60,9 +60,9 @@ const mutation = gql`
       }
     ) {
       mutationResultWithID {
+        id
         message
         success
-        
       }
     }
   }
@@ -95,7 +95,7 @@ const ServiceDescriptionScreen = () => {
   }>(query);
   const [requestService, { data: mutationData }] = useMutation<{
     requestService: {
-      mutationResult: {
+      mutationResultWithID: {
         message: string;
         success: boolean;
         id: number;
@@ -111,10 +111,10 @@ const ServiceDescriptionScreen = () => {
         fecha_Realizacion: values.fechaRealizacion,
       },
     });
-    if (result.data?.requestService.mutationResult.success) {
-      Alert.alert("Service requested successfully");
+    if (result.data?.requestService.mutationResultWithID.success) {
       router.push("/payment");
       router.setParams({
+        id: String(result.data?.requestService.mutationResultWithID.id),
         price: data?.categoriasServicios.items
           .find((item) => item.id_Servicio === Number(values.category))
           ?.precio.toString(),

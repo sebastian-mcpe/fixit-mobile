@@ -26,12 +26,31 @@ import { router, useRouter } from "expo-router";
 import Colors from "@/constants/Colors";
 import { useURL } from "expo-linking";
 import { useRoute } from "@react-navigation/native";
+import { gql, useMutation } from "@apollo/client";
+const PAY_SERVICE = gql`
+  mutation Pay($id: Int!) {
+    payService(input: { serviceId: $id }) {
+      mutationResult {
+        message
+        success
+      }
+    }
+  }
+`;
 
 const PaymentOptionScreen = () => {
   const [selectedOption, setSelectedOption] = useState("");
+  const [payService] = useMutation<{
+    mutationResult: {
+      message: string;
+      success: boolean;
+    };
+  }>(PAY_SERVICE);
+
   const params = useRoute().params as { [key: string]: string };
   const price = params.price;
   const description = params.description;
+  const id = Number(params.id);
 
   return (
     <GluestackUIProvider config={config}>
@@ -139,11 +158,13 @@ const PaymentOptionScreen = () => {
         <Button
           mt={10}
           onPress={() => {
-            router.push("succesfullPayment");
-            router.setParams({
-              price,
-              description,
-              paymentOption: selectedOption,
+            payService({ variables: { id } }).then((res) => {
+              router.push("succesfullPayment");
+              router.setParams({
+                price,
+                description,
+                paymentOption: selectedOption,
+              });
             });
           }}
           isDisabled={!selectedOption}

@@ -24,8 +24,9 @@ import Colors from "@/constants/Colors";
 import { gql, useQuery } from "@apollo/client";
 import ServicesHighlight from "@/components/ServicesHighlight";
 import * as SecureStore from "expo-secure-store";
-import { router } from "expo-router";
+import { router, useRouter } from "expo-router";
 import { useAuth } from "@/context/AuthContext";
+import { useRoute } from "@react-navigation/native";
 
 const GET_DOGS = gql`
   query default {
@@ -44,7 +45,6 @@ type Servicio = {
 };
 
 export default function home() {
-  const { signOut, session } = useAuth();
   const [refreshing, setRefreshing] = React.useState(false);
 
   var { loading, error, data, refetch } = useQuery<{
@@ -59,9 +59,7 @@ export default function home() {
   }, []);
 
   useEffect(() => {
-    console.log(SecureStore.getItem("session"));
     refetch();
-    console.log("refetching");
   }, [refreshing]);
 
   if (loading)
@@ -83,8 +81,6 @@ export default function home() {
         <Text>Error! ${error.message}</Text>
       </ScrollView>
     );
-
-  console.log(data?.categoriasServicios.items);
 
   return (
     <GluestackUIProvider config={config}>

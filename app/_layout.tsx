@@ -1,31 +1,38 @@
 // App.tsx
-import { Slot, Stack } from 'expo-router';
-import { AuthProvider } from '@/context/AuthContext';
+import { Slot, Stack } from "expo-router";
+import { AuthProvider } from "@/context/AuthContext";
 
 const App: React.FC = () => {
   return (
     <AuthProvider>
-      <Stack>
-
-        <Stack.Screen name="index"
+      <Stack initialRouteName="index">
+        <Stack.Screen
+          name="landingPage"
           options={{
-            headerShown: false
-          }} />
+            headerShown: false,
+          }}
+        />
 
-        <Stack.Screen name="loginClient"
+        <Stack.Screen
+          name="loginClient"
           options={{
-            headerShown: false
-          }} />
+            headerShown: false,
+          }}
+        />
 
-        <Stack.Screen name="loginWorker"
+        <Stack.Screen
+          name="loginWorker"
           options={{
-            headerShown: false
-          }} />
+            headerShown: false,
+          }}
+        />
 
-        <Stack.Screen name="(app)"
+        <Stack.Screen
+          name="(app)"
           options={{
-            headerShown: false
-          }} />
+            headerShown: false,
+          }}
+        />
       </Stack>
     </AuthProvider>
   );

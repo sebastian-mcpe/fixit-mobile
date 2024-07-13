@@ -10,15 +10,14 @@ import { useAuth } from "@/context/AuthContext";
 import { jwtDecode } from "jwt-decode";
 import * as SecureStore from "expo-secure-store";
 
-
 type booking = {
-  id_Servicio: number,
+  id_Servicio: number;
   fecha_Realizacion: Date;
   estado: string;
 };
 
 const GET_BOOKINGS = gql`
-  query GET_BOOKINGS ($id: Int!) {
+  query GET_BOOKINGS($id: Int!) {
     servicios(where: { cliente: { id: { eq: $id } } }) {
       items {
         id_Servicio
@@ -30,25 +29,28 @@ const GET_BOOKINGS = gql`
 `;
 
 export default function bookings() {
-  const token = SecureStore.getItem("session")
+  const token = SecureStore.getItem("session");
   if (!token) {
-    throw Error
+    throw Error;
   }
-  const tokenDecoded = jwtDecode(token) as {[key: string]: any}
+  const tokenDecoded = jwtDecode(token) as { [key: string]: any };
 
-  const userId = tokenDecoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier']
-  console.log('el id es: ' + userId);
-  
+  const userId =
+    tokenDecoded[
+      "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
+    ];
+  console.log("el id es: " + userId);
+
   const [selected, setSelected] = React.useState(0);
   const { session } = useAuth();
   var { loading, error, data } = useQuery<{ servicios: { items: booking[] } }>(
-    GET_BOOKINGS, {
+    GET_BOOKINGS,
+    {
       variables: {
-        id: Number(userId)
-      }
+        id: Number(userId),
+      },
     }
   );
-  
 
   if (loading) return <Text>Loading...</Text>;
 
