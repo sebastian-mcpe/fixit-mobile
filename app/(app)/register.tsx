@@ -143,14 +143,16 @@ const RegisterScreen = () => {
                 style={styles.logo}
               />
               <Box style={[{ width: "100%" }]}>
-                <Select defaultValue="client">
+                <Select
+                  onValueChange={handleChange("role")}
+                  defaultValue="client"
+                >
                   <SelectTrigger
                     variant="outline"
                     size="md"
                     style={[{ borderRadius: 7 }]}
                   >
                     <SelectInput
-                      onChangeText={handleChange("role")}
                       onBlur={handleBlur("role")}
                       value={values.role}
                       placeholder="Select option"

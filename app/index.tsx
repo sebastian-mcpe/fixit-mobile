@@ -15,7 +15,7 @@ import { config } from "@gluestack-ui/config";
 import Colors from "@/constants/Colors";
 import EditScreenInfo from "@/components/EditScreenInfo";
 import GenericButton from "@/components/GenericButton";
-import { Link, router } from "expo-router";
+import { Link, router, useRouter } from "expo-router";
 import { useAuth } from "@/context/AuthContext";
 
 export default function index() {
@@ -49,6 +49,7 @@ export default function index() {
             color={Colors.yellow}
             tintColor={Colors.light.tint}
             onPress={() => {
+              // router.push("/home");
               router.push("loginWorker");
             }}
           />

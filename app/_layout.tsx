@@ -5,9 +5,9 @@ import { AuthProvider } from "@/context/AuthContext";
 const App: React.FC = () => {
   return (
     <AuthProvider>
-      <Stack initialRouteName="index">
+      <Stack>
         <Stack.Screen
-          name="landingPage"
+          name="index"
           options={{
             headerShown: false,
           }}

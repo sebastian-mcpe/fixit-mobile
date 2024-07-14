@@ -9,6 +9,7 @@ import { string } from "yup";
 import { useAuth } from "@/context/AuthContext";
 import { jwtDecode } from "jwt-decode";
 import * as SecureStore from "expo-secure-store";
+import { getUserID, getUserRole } from "@/utils/token";
 
 type booking = {
   id_Servicio: number;
@@ -29,20 +30,9 @@ const GET_BOOKINGS = gql`
 `;
 
 export default function bookings() {
-  const token = SecureStore.getItem("session");
-  if (!token) {
-    throw Error;
-  }
-  const tokenDecoded = jwtDecode(token) as { [key: string]: any };
-
-  const userId =
-    tokenDecoded[
-      "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
-    ];
-  console.log("el id es: " + userId);
+  const userId = getUserID();
 
   const [selected, setSelected] = React.useState(0);
-  const { session } = useAuth();
   var { loading, error, data } = useQuery<{ servicios: { items: booking[] } }>(
     GET_BOOKINGS,
     {
@@ -55,8 +45,6 @@ export default function bookings() {
   if (loading) return <Text>Loading...</Text>;
 
   if (error) return <Text>Error! ${error.message}</Text>;
-
-  console.log(data?.servicios.items);
 
   return (
     <SafeAreaView style={[styles.container]}>

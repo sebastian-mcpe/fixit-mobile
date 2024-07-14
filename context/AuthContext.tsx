@@ -55,7 +55,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setSession(null);
       })
       .then(() => {
-        router.push("/landingPage");
+        router.push("/");
       });
   };
 

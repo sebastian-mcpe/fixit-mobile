@@ -161,6 +161,10 @@ export default function _layout(token: string) {
               headerTitle: "Successful payment",
             }}
           />
+          <Stack.Screen
+            name="shareFeedback"
+            options={{ headerTitle: "Feedback" }}
+          />
 
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         </Stack>

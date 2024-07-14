@@ -60,8 +60,6 @@ export default function loginClient() {
     formikHelpers: FormikHelpers<formValues>
   ) => {
     var userData = await login(values);
-    console.log(userData);
-
     if (userData["token"]) {
       signIn(userData["token"]);
       router.push("home");

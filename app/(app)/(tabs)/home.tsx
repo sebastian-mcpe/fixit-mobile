@@ -27,6 +27,9 @@ import * as SecureStore from "expo-secure-store";
 import { router, useRouter } from "expo-router";
 import { useAuth } from "@/context/AuthContext";
 import { useRoute } from "@react-navigation/native";
+import { getUserRole } from "@/utils/token";
+import BookingsTrabajador from "@/components/BookingsTrabajador";
+import Loader from "@/components/Loader";
 
 const GET_DOGS = gql`
   query default {
@@ -46,6 +49,7 @@ type Servicio = {
 
 export default function home() {
   const [refreshing, setRefreshing] = React.useState(false);
+  const role = getUserRole();
 
   var { loading, error, data, refetch } = useQuery<{
     categoriasServicios: { items: Servicio[] };
@@ -62,14 +66,7 @@ export default function home() {
     refetch();
   }, [refreshing]);
 
-  if (loading)
-    return (
-      <View
-        style={{ flex: 1, justifyContent: "center", alignContent: "center" }}
-      >
-        <ActivityIndicator size="large" color={Colors.blue} />
-      </View>
-    );
+  if (loading) return <Loader />;
 
   if (error)
     return (
@@ -81,6 +78,7 @@ export default function home() {
         <Text>Error! ${error.message}</Text>
       </ScrollView>
     );
+  if (role === "worker") return <BookingsTrabajador />;
 
   return (
     <GluestackUIProvider config={config}>
