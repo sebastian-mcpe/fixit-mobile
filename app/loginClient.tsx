@@ -119,6 +119,7 @@ export default function loginClient() {
               />
               <FormError name="password" />
               <Link
+                replace
                 href="forgotPassword"
                 style={[
                   {

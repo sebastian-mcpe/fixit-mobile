@@ -2,6 +2,8 @@ import { getUserID } from "@/utils/token";
 import { gql, useQuery } from "@apollo/client";
 import { View, Text, ScrollView } from "@gluestack-ui/themed";
 import { ServiceCard } from "./ServiceCard";
+import * as SecureStore from "expo-secure-store";
+import { useState } from "react";
 
 const GET_ACTIVE_AND_NEW_BOOKINGS = gql`
   query Servicios($trabajadorId: Int!) {
@@ -51,7 +53,18 @@ const GET_BOOKINGS_DETAILS = gql`
   }
 `;
 
-export default function BookingsTrabajador() {
+export default function HomeTrabajador() {
+  const [declined, setDeclined] = useState<number[]>(
+    JSON.parse(SecureStore.getItem("declined") || "[]")
+  );
+
+  const decline = (id: number) => {
+    const declined = JSON.parse(SecureStore.getItem("declined") || "[]");
+    declined.push(id);
+    SecureStore.setItem("declined", JSON.stringify(declined));
+    console.log(declined);
+    setDeclined(declined);
+  };
   const workerID = getUserID();
   const { loading, error, data } = useQuery<{
     servicios: {
@@ -72,13 +85,7 @@ export default function BookingsTrabajador() {
   }>(GET_ACTIVE_AND_NEW_BOOKINGS, {
     variables: { trabajadorId: workerID },
   });
-  //   GET IDS, remove duplicates
-  const ids = data?.servicios.items
-    .map((booking) => booking.categoria_ServicioId)
-    .reduce((acc: number[], curr) => {
-      if (acc.includes(curr)) return acc;
-      return [...acc, curr];
-    }, []);
+
   const {
     loading: loadingDetails,
     error: errorDetails,
@@ -94,13 +101,15 @@ export default function BookingsTrabajador() {
       }[];
     };
   }>(GET_BOOKINGS_DETAILS);
-  console.log(ids);
 
   if (loading || loadingDetails) return <Text>Loading...</Text>;
   if (error || errorDetails) return <Text>Error! ${error?.message}</Text>;
   if (!data || !dataDetails) return <Text>No data</Text>;
   //Dividir por ya asignados, (tienen el id del trabajador) y los que no tienen trabajador asignado
-  const yetToAsign = data.servicios.items
+  const filteredData = data.servicios.items.filter(
+    (e) => !declined.includes(e.id_Servicio)
+  );
+  const yetToAsign = filteredData
     .filter(
       (booking) =>
         booking.estado === "pendiente" && booking.trabajadorId !== workerID
@@ -117,7 +126,7 @@ export default function BookingsTrabajador() {
         (category) => category.id_Servicio === booking.categoria_ServicioId
       ),
     }));
-  const asignedBookings = data.servicios.items
+  const asignedBookings = filteredData
     .filter((booking) => booking.trabajadorId === workerID)
     .map((booking) => ({
       ...booking,
@@ -144,6 +153,7 @@ export default function BookingsTrabajador() {
             asignedBookings.map((booking) => {
               return (
                 <ServiceCard
+                  decline={decline}
                   key={booking.id_Servicio}
                   category={booking.Categoria?.nombre || ""}
                   completeDate={booking.fecha_Realizacion}
@@ -162,6 +172,7 @@ export default function BookingsTrabajador() {
           {yetToAsign.map((booking) => {
             return (
               <ServiceCard
+                decline={decline}
                 key={booking.id_Servicio}
                 category={booking.Categoria?.nombre || ""}
                 completeDate={booking.fecha_Realizacion}

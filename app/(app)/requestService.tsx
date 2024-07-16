@@ -30,6 +30,8 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import { ErrorMessage, Formik } from "formik";
 import * as yup from "yup";
 import GenericButton from "@/components/GenericButton";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import RNDateTimePicker from "@react-native-community/datetimepicker";
 
 const query = gql`
   query requestServiceFormData {
@@ -83,6 +85,8 @@ const validations = yup.object().shape({
 });
 
 const ServiceDescriptionScreen = () => {
+  const [date, setDate] = useState(new Date());
+  const [open, setOpen] = useState(false);
   const { data, loading, error } = useQuery<{
     categoriasServicios: {
       items: {
@@ -108,7 +112,7 @@ const ServiceDescriptionScreen = () => {
       variables: {
         servicioID: Number(values.category),
         descripcion: values.description,
-        fecha_Realizacion: values.fechaRealizacion,
+        fecha_Realizacion: date,
       },
     });
     if (result.data?.requestService.mutationResultWithID.success) {
@@ -133,7 +137,14 @@ const ServiceDescriptionScreen = () => {
           validationSchema={validations}
           onSubmit={onSubmit}
         >
-          {({ values, handleChange, handleBlur, handleSubmit }) => (
+          {({
+            values,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isValid,
+            dirty,
+          }) => (
             <View style={{ padding: 20 }}>
               <Text style={styles.title}>Service Description</Text>
 
@@ -211,10 +222,21 @@ const ServiceDescriptionScreen = () => {
               <View style={styles.buttonContainer}>
                 <Button
                   style={styles.requestLaterButton}
-                  onPress={() => console.log("Request for later pressed")}
+                  onPress={() => setOpen(true)}
                 >
                   <Text color="white">Request for later</Text>
                 </Button>
+                {open && (
+                  <RNDateTimePicker
+                    style={{ display: open ? "flex" : "none" }}
+                    onChange={(e, d) => {
+                      setDate(d || new Date());
+                      setOpen(false);
+                      handleSubmit();
+                    }}
+                    value={date}
+                  />
+                )}
 
                 <Button
                   style={styles.requestNowButton}

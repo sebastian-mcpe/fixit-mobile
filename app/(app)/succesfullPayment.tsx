@@ -14,9 +14,11 @@ import { router } from "expo-router";
 import Colors from "@/constants/Colors";
 import { useURL } from "expo-linking";
 import { useRoute } from "@react-navigation/native";
+import { useApolloClient } from "@apollo/client";
 
 const PaymentSuccessScreen = () => {
-  // Get url params
+  const client = useApolloClient();
+
   const params = useRoute().params as { [key: string]: string };
   return (
     <SafeAreaView style={styles.container}>
@@ -62,8 +64,13 @@ const PaymentSuccessScreen = () => {
 
       <Button
         mt={10}
-        onPress={() => {
-          router.replace("home");
+        onPress={async () => {
+          // Get url params
+          // Clear apollo cache
+          // Redirect to home screen
+          client.cache.reset().then(() => {
+            router.replace("home");
+          });
         }}
         style={styles.doneButton}
       >

@@ -28,7 +28,7 @@ import { router, useRouter } from "expo-router";
 import { useAuth } from "@/context/AuthContext";
 import { useRoute } from "@react-navigation/native";
 import { getUserRole } from "@/utils/token";
-import BookingsTrabajador from "@/components/BookingsTrabajador";
+import HomeTrabajador from "@/components/HomeTrabajador";
 import Loader from "@/components/Loader";
 
 const GET_DOGS = gql`
@@ -78,7 +78,7 @@ export default function home() {
         <Text>Error! ${error.message}</Text>
       </ScrollView>
     );
-  if (role === "worker") return <BookingsTrabajador />;
+  if (role === "worker") return <HomeTrabajador />;
 
   return (
     <GluestackUIProvider config={config}>

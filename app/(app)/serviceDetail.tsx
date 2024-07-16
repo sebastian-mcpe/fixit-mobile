@@ -104,6 +104,7 @@ const serviceDetail = () => {
   const theme = useTheme();
   const route = useRoute();
   const id = Number((route.params as { [key: string]: any }).id);
+  console.log(id);
   const { loading, error, data } = useQuery<ServiceDetail>(
     GET_SERVICE_DETAILS,
     { variables: { id } }

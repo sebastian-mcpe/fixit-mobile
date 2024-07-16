@@ -7,6 +7,7 @@ export interface ServiceCardProps {
   completeDate: Date;
   category: string;
   id: number;
+  decline: (id: number) => void;
 }
 const months = [
   "January",
@@ -36,6 +37,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
   category,
   completeDate,
   id,
+  decline,
 }) => {
   const router = useRouter();
   const dateString = `${completeDate.getDate()}nd ${
@@ -56,7 +58,13 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
           <Button bgColor="white">
             <Text color="black">Accept</Text>
           </Button>
-          <Button bgColor="#283891">
+          <Button
+            onPress={() => {
+              console.log("Pressed " + id);
+              decline(id);
+            }}
+            bgColor="#283891"
+          >
             <Text color="white">Decline</Text>
           </Button>
         </View>
